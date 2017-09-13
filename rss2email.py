@@ -162,11 +162,13 @@ def send(sender, recipient, subject, body, contenttype, extraheaders=None, smtps
 	msg = MIMEText(body.encode(body_charset), contenttype, body_charset)
 	msg['To'] = formataddr((recipient_name, recipient_addr))
 	msg['Subject'] = Header(unicode(subject), header_charset)
-	for hdr in extraheaders.keys():
+	for (hdr, value) in extraheaders.items():
+                if not value:
+                        continue
 		try:
-			msg[hdr] = Header(unicode(extraheaders[hdr], header_charset))
+			msg[hdr] = Header(unicode(value, header_charset))
 		except:
-			msg[hdr] = Header(extraheaders[hdr])
+			msg[hdr] = Header(value)
 		
 	fromhdr = formataddr((sender_name, sender_addr))
 	msg['From'] = fromhdr
