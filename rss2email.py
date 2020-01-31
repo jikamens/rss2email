@@ -152,10 +152,6 @@ def send(sender, recipient, subject, body, contenttype, extraheaders=None, smtps
 	sender_name = str(Header(sender_name, header_charset))
 	recipient_name = str(Header(recipient_name, header_charset))
 	
-	# Make sure email addresses do not contain non-ASCII characters
-	sender_addr = sender_addr.encode('ascii')
-	recipient_addr = recipient_addr.encode('ascii')
-	
 	# Create the message ('plain' stands for Content-Type: text/plain)
 	msg = MIMEText(body.encode(body_charset), contenttype, body_charset)
 	msg['To'] = formataddr((recipient_name, recipient_addr))
